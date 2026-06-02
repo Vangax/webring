@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 
 	_ "embed"
 
@@ -29,6 +30,21 @@ func main() {
 	}
 
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		host := r.Host
+
+		if strings.HasSuffix(host, ".seggs.lol") && host != "ring.seggs.lol" && host != "seggs.lol" {
+			sub := strings.TrimSuffix(host, ".seggs.lol")
+			for _, entry := range webring {
+				if entry.Name == sub {
+					http.Redirect(w, r, entry.Url, http.StatusFound)
+					return
+				}
+			}
+
+			http.Error(w, "not found", http.StatusNotFound)
+			return
+		}
+
 		setCorsHeaders(w)
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("uwu"))

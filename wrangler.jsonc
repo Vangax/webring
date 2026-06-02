@@ -5,6 +5,12 @@
   "build": {
     "command": "npm run build"
   },
+  "routes": [
+    {
+      "pattern": "*.seggs.lol/*",
+      "zone_name": "seggs.lol"
+    }
+  ],
   "observability": {
     "enabled": false,
     "head_sampling_rate": 1,
